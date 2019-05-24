@@ -54,6 +54,9 @@ var Map = function(options) {
     this.off = evented.off;
     this.fire = evented.fire;
     this.listens = evented.listens;
+    
+    // will contain all ids currently on the map
+    this.layerData = [];
 
     this.options = util.extend(options || {}, defaultOptions);
     this._events = {};
@@ -205,9 +208,20 @@ Map.prototype.removeSource = function(name) {
   delete this._sources[name];
 };
 
-Map.prototype.addLayer = function(layer, before) {};
+Map.prototype.addLayer = function(layer, before) {
+  this.layerData.push(layer.id);
+};
 Map.prototype.removeLayer = function(layerId) {};
-Map.prototype.getLayer = function(layerId) {};
+
+Map.prototype.getLayer = function(layerId) {
+  if (this.layerData.indexOf(layerId) > -1) {
+    return {
+      serialize: () => { return {}; },
+      id: layerId
+    }
+  } 
+  return undefined
+};
 
 Map.prototype.getZoom = function() { return this.zoom; };
 Map.prototype.getPitch = functor(0);
