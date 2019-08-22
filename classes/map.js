@@ -54,7 +54,7 @@ var Map = function(options) {
     this.off = evented.off;
     this.fire = evented.fire;
     this.listens = evented.listens;
-    
+
     // will contain all ids currently on the map
     this.layerData = [];
 
@@ -63,6 +63,7 @@ var Map = function(options) {
     this._sources = {};
     this._collectResourceTiming = !!this.options.collectResourceTiming;
     this.zoom = this.options.zoom || 0;
+    this.bearing = this.options.bearing || 0;
     this.center = this.options.center ? new LngLat(this.options.center[0], this.options.center[1]) : new LngLat(0, 0);
     this.style = new Style();
     this.transform = new Transform();
@@ -128,6 +129,7 @@ var Map = function(options) {
 
 Map.prototype.setBearing = function(bearing) {
   this.bearing = bearing;
+  this.fire('rotate');
 }
 
 Map.prototype.getBearing = function() {
@@ -219,7 +221,7 @@ Map.prototype.getLayer = function(layerId) {
       serialize: () => { return {}; },
       id: layerId
     }
-  } 
+  }
   return undefined
 };
 
@@ -231,6 +233,8 @@ Map.prototype.setCenter = function(x) { this.center = new LngLat(x[0], x[1])};
 Map.prototype.easeTo = function(paramObject) {
   if (Array.isArray(paramObject.center)) {
     this.setCenter(paramObject.center)
+  } else if(paramObject.bearing !== undefined) {
+    this.setBearing(paramObject.bearing);
   } else {
     const centerArray = [paramObject.center.lng, paramObject.center.lat];
     this.setCenter(centerArray);
