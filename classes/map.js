@@ -62,6 +62,8 @@ var Map = function(options) {
     this._events = {};
     this._sources = {};
     this._collectResourceTiming = !!this.options.collectResourceTiming;
+    this.pitch = this.options.pitch || 0;
+    this.bearing = this.options.bearing || 0;
     this.zoom = this.options.zoom || 0;
     this.bearing = this.options.bearing || 0;
     this.center = this.options.center ? new LngLat(this.options.center[0], this.options.center[1]) : new LngLat(0, 0);
@@ -109,14 +111,17 @@ var Map = function(options) {
 
     var setters = [
       // Camera options
-      'jumpTo', 'panTo', 'panBy',
-      'setPitch',
+      'jumpTo', 
+      'panTo', 
+      'panBy',
       'setZoom',
       'fitBounds',
       'resetNorth',
       'snapToNorth',
+
       // Settings
       'setMaxBounds', 'setMinZoom', 'setMaxZoom',
+
       // Layer properties
       'setLayoutProperty',
       'setPaintProperty'
@@ -226,26 +231,39 @@ Map.prototype.getLayer = function(layerId) {
 };
 
 Map.prototype.getZoom = function() { return this.zoom; };
-Map.prototype.getPitch = functor(0);
+
+Map.prototype.getPitch = function() { return this.pitch };
+Map.prototype.setPitch = function(newPitch) { this.pitch = newPitch };
+
 Map.prototype.getCenter = function() { return this.center; };
 Map.prototype.setCenter = function(x) { this.center = new LngLat(x[0], x[1])};
 
 Map.prototype.easeTo = function(paramObject) {
-  if (Array.isArray(paramObject.center)) {
-    this.setCenter(paramObject.center)
-  } else if(paramObject.bearing !== undefined) {
+  if (paramObject.center) { 
+    if (Array.isArray(paramObject.center)) {
+      this.setCenter(paramObject.center)
+    } else {
+      const centerArray = [paramObject.center.lng, paramObject.center.lat];
+      this.setCenter(centerArray);
+    }
+  }
+
+  if (typeof paramObject.bearing === 'number') {
     this.setBearing(paramObject.bearing);
-  } else {
-    const centerArray = [paramObject.center.lng, paramObject.center.lat];
-    this.setCenter(centerArray);
   }
 };
 Map.prototype.flyTo = function(paramObject) {
-  if (Array.isArray(paramObject.center)) {
-    this.setCenter(paramObject.center)
-  } else {
-    const centerArray = [paramObject.center.lng, paramObject.center.lat];
-    this.setCenter(centerArray);
+  if (paramObject.center) { 
+    if (Array.isArray(paramObject.center)) {
+      this.setCenter(paramObject.center)
+    } else {
+      const centerArray = [paramObject.center.lng, paramObject.center.lat];
+      this.setCenter(centerArray);
+    }
+  }
+
+  if (typeof paramObject.bearing === 'number') {
+    this.setBearing(paramObject.bearing);
   }
 }
 
