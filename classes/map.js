@@ -67,6 +67,7 @@ var Map = function(options) {
     this.zoom = this.options.zoom || 0;
     this.bearing = this.options.bearing || 0;
     this.center = this.options.center ? new LngLat(this.options.center[0], this.options.center[1]) : new LngLat(0, 0);
+    this.maxBounds = this.options.maxBounds || [0, 0, 0, 0];
     this.style = new Style();
     this.transform = new Transform();
     this._controlCorners = {
@@ -237,6 +238,9 @@ Map.prototype.setPitch = function(newPitch) { this.pitch = newPitch };
 
 Map.prototype.getCenter = function() { return this.center; };
 Map.prototype.setCenter = function(x) { this.center = new LngLat(x[0], x[1])};
+
+Map.prototype.getBounds = function() { return this.maxBounds; };
+Map.prototype.setBounds = function(x) { this.maxBounds = x };
 
 Map.prototype.easeTo = function(paramObject) {
   if (paramObject.center) { 
