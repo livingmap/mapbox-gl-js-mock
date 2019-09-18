@@ -239,8 +239,8 @@ Map.prototype.setPitch = function(newPitch) { this.pitch = newPitch };
 Map.prototype.getCenter = function() { return this.center; };
 Map.prototype.setCenter = function(x) { this.center = new LngLat(x[0], x[1])};
 
-Map.prototype.getBounds = function() { return this.maxBounds; };
-Map.prototype.setBounds = function(x) { this.maxBounds = x };
+Map.prototype.getMaxBounds = function() { return this.maxBounds; };
+Map.prototype.setMaxBounds = function(x) { this.maxBounds = x };
 
 Map.prototype.easeTo = function(paramObject) {
   if (paramObject.center) { 
