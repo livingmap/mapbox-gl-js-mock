@@ -5,6 +5,7 @@ var bboxPolygon = require('@turf/bbox-polygon');
 var buffer = require('@turf/buffer');
 
 var LngLat = require('mapbox-gl/src/geo/lng_lat');
+var LngLatBounds = require('mapbox-gl/src/geo/lng_lat_bounds');
 var Evented = require('mapbox-gl/src/util/evented');
 var Transform = require('mapbox-gl/src/geo/transform');
 var util = require('mapbox-gl/src/util/util');
@@ -242,6 +243,9 @@ Map.prototype.setCenter = function(x) { this.center = new LngLat(x[0], x[1])};
 
 Map.prototype.getMaxBounds = function() { return this.maxBounds; };
 Map.prototype.setMaxBounds = function(x) { this.maxBounds = x };
+
+Map.prototype.getBounds = function() { return new LngLatBounds(this.maxBounds); };
+Map.prototype.setBounds = function(x) { this.maxBounds = x };
 
 Map.prototype.easeTo = function(paramObject) {
   if (paramObject.center) { 
