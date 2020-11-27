@@ -2,12 +2,13 @@
   "name": "mapbox-gl-js-mock",
   "version": "1.0.2",
   "description": "A maybe-some-day-fully-featured mock for mapbox-gl-js",
-  "main": "index.js",
+  "main": "build/index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/mapbox/mapbox-gl-js-mock.git"
   },
   "scripts": {
+    "build": "webpack",
     "test": "tape test/*test.js"
   },
   "keywords": [
@@ -28,9 +29,16 @@
     "gl": "^4.0.4",
     "jsdom": "11.6.2",
     "mapbox-gl": "^0.44.1",
-    "sinon": "^4.3.0"
+    "sinon": "^4.3.0",
+    "webpack-cli": "^3.3.11"
   },
   "devDependencies": {
-    "tape": "^4.8.0"
+    "@babel/core": "^7.9.6",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^8.1.0",
+    "flow-babel-webpack-plugin": "^1.1.1",
+    "remove-flow-types-loader": "^1.1.0",
+    "tape": "^4.8.0",
+    "webpack": "^4.43.0"
   }
 }
